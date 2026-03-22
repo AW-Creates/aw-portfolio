@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-primary-500: theme('colors.zinc.500');
+  --font-signature: "Great Vibes", cursive;
 }
 
 @layer base {

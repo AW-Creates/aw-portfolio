@@ -32,13 +32,13 @@ export default function Hero() {
     const yD = useTransform(smoothProgress, [0.65, 0.75], [20, 0])
 
     return (
-        <div ref={containerRef} className="h-[400vh] relative bg-[#050505] selection:bg-white/20">
+        <div ref={containerRef} className="h-[400vh] relative bg-white dark:bg-[#050505] selection:bg-black/20 dark:selection:bg-white/20 transition-colors duration-500">
             <ThemeToggle />
 
             <div className="h-screen sticky top-0 overflow-hidden flex w-full">
 
                 {/* Absolute Bottom Canvas Layer (with pure alpha mask for flawless integration) */}
-                <div className="absolute inset-0 z-0 bg-[#050505] [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
+                <div className="absolute inset-0 z-0 bg-white dark:bg-[#050505] transition-colors duration-500 [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
                     <CanvasSequence onLoadComplete={() => setIsSequenceLoaded(true)} />
                 </div>
 
@@ -47,43 +47,53 @@ export default function Hero() {
 
                     {/* BEAT A */}
                     <motion.div style={{ opacity: opacityA, y: yA }} className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                        {/* White Signature Logo for Dark Mode */}
                         <img
                             src="/signature-logo.png"
-                            alt="Aaron Wilcher Signature"
-                            className="w-[85vw] max-w-[800px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                            alt="Aaron Wilcher"
+                            className="w-[85vw] max-w-[800px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] hidden dark:block"
                         />
-                        <p className="mt-8 md:mt-12 text-sm md:text-lg text-white/60 tracking-[0.3em] font-light uppercase drop-shadow-lg">Premium AI Automation</p>
+                        {/* Dark Signature Logo for Light Mode */}
+                        <img
+                            src="/signature-logo-dark.png"
+                            alt="Aaron Wilcher"
+                            className="w-[85vw] max-w-[800px] h-auto object-contain drop-shadow-[0_0_30px_rgba(0,0,0,0.1)] block dark:hidden"
+                        />
+
+                        <p className="mt-8 md:mt-12 text-[11px] md:text-sm text-black/80 dark:text-white/80 tracking-[0.4em] font-medium uppercase drop-shadow-md">PREMIUM AI AUTOMATION</p>
                     </motion.div>
 
                     {/* BEAT B */}
-                    <motion.div style={{ opacity: opacityB, y: yB }} className="absolute left-6 md:left-24 top-1/2 -translate-y-1/2 flex flex-col items-start max-w-[280px] md:max-w-md">
-                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white/90 leading-[0.9]">
-                            <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.8)] block text-5xl md:text-8xl w-full">THE</span>
-                            FIRST<br />AUTOMATION
+                    <motion.div style={{ opacity: opacityB, y: yB }} className="absolute left-6 lg:left-24 top-1/2 -translate-y-1/2 flex flex-col items-start max-w-[280px] md:max-w-md">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-widest uppercase text-black/90 dark:text-white/90 leading-[1.1] relative">
+                            <span className="font-signature font-normal tracking-normal normal-case text-5xl md:text-6xl lg:text-[5rem] block w-full mb-1 text-black/70 dark:text-white/70">The</span>
+                            <span className="relative z-0 block">FIRST<br />AUTOMATION</span>
                         </h2>
-                        <p className="mt-8 text-sm md:text-lg text-white/60 leading-relaxed font-light">
-                            Building the intelligent systems and integrations that power your first major breakthrough. We strip back the complex.
+                        <p className="mt-6 md:mt-8 text-[10px] md:text-xs text-black/50 dark:text-white/50 leading-loose font-light tracking-[0.2em] uppercase">
+                            Building intelligent systems that power your first major breakthrough.
                         </p>
                     </motion.div>
 
                     {/* BEAT C */}
-                    <motion.div style={{ opacity: opacityC, y: yC }} className="absolute right-6 md:right-24 top-1/2 -translate-y-1/2 flex flex-col items-end text-right justify-center max-w-[280px] md:max-w-md">
-                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white/90 leading-[0.9]">
-                            PREMIUM<br />
-                            <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.8)] block text-5xl md:text-8xl">ENGINEERING</span>
+                    <motion.div style={{ opacity: opacityC, y: yC }} className="absolute right-6 lg:right-24 top-1/2 -translate-y-1/2 flex flex-col items-end text-right justify-center max-w-[280px] md:max-w-md">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-widest uppercase text-black/90 dark:text-white/90 leading-[1.1] relative">
+                            <span className="relative z-0 block">PREMIUM</span>
+                            <span className="font-signature font-normal tracking-normal normal-case text-5xl md:text-6xl lg:text-[5rem] block mt-1 text-black/70 dark:text-white/70">Engineering</span>
                         </h2>
-                        <p className="mt-8 text-sm md:text-lg text-white/60 leading-relaxed font-light">
-                            We design digital experiences that feel distinctly physical. Interfaces that refuse to be ignored and automations that save countless hours.
+                        <p className="mt-6 md:mt-8 text-[10px] md:text-xs text-black/50 dark:text-white/50 leading-loose font-light tracking-[0.2em] uppercase text-right">
+                            Interfaces that refuse to be ignored and automations that save countless hours.
                         </p>
                     </motion.div>
 
-                    {/* BEAT D */}
-                    <motion.div style={{ opacity: opacityD, y: yD }} className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                        <h2 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.9)] uppercase drop-shadow-2xl">
-                            READY?
+                    {/* BEAT D (Massive Scale + Glassmorphism Pull) */}
+                    <motion.div style={{ opacity: opacityD, y: yD }} className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                        <h2 className="font-signature font-normal tracking-normal capitalize text-[6.5rem] md:text-[10rem] lg:text-[12rem] text-black/90 dark:text-white/90 drop-shadow-xl dark:drop-shadow-2xl z-10 relative">
+                            Ready?
                         </h2>
-                        <p className="mt-6 md:mt-8 text-sm md:text-xl text-white/60 tracking-[0.3em] font-light uppercase">Let's construct the future.</p>
-                        <button className="mt-12 px-10 py-5 bg-white text-[#050505] font-bold tracking-widest uppercase text-xs hover:scale-105 active:scale-95 transition-transform pointer-events-auto rounded-none">
+                        <p className="mt-[-10px] md:mt-[-20px] text-sm md:text-base text-black/80 dark:text-white/80 tracking-[0.3em] font-medium uppercase transition-colors z-0 relative drop-shadow-md">Let's construct the future.</p>
+
+                        {/* Glassmorphism Pill */}
+                        <button className="mt-10 md:mt-14 px-8 py-3 md:px-10 md:py-4 bg-black/5 dark:bg-white/5 backdrop-blur-md border border-black/10 dark:border-white/10 text-black/80 dark:text-white/90 hover:bg-black/10 dark:hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-300 font-medium tracking-[0.2em] uppercase text-[9px] md:text-[11px] pointer-events-auto rounded-full shadow-2xl">
                             Explore The Work
                         </button>
                     </motion.div>

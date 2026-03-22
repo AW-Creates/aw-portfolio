@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useScroll, useSpring, useTransform } from 'motion/react'
+import { motion, useScroll, useSpring, useTransform } from 'motion/react'
 
 interface Props {
     onLoadComplete?: () => void;
@@ -101,16 +101,34 @@ export default function CanvasSequence({ onLoadComplete }: Props) {
     }, [images, frameIndex])
 
     return (
-        <div className="relative w-full h-full bg-[#050505]">
+        <div className="relative w-full h-full bg-white dark:bg-[#050505]">
             {/* Luxury Loading State */}
             <div
-                className={`absolute inset-0 flex flex-col items-center justify-center bg-[#050505] z-50 transition-all duration-1000 ease-in-out pointer-events-none ${loaded === 100 ? 'opacity-0 scale-105' : 'opacity-100 scale-100'}`}
+                className={`absolute inset-0 flex flex-col items-center justify-center bg-white dark:bg-[#050505] z-50 transition-all duration-1000 ease-in-out pointer-events-none ${loaded === 100 ? 'opacity-0 scale-105' : 'opacity-100 scale-100'}`}
             >
-                <div className="text-white/60 tracking-[0.5em] text-[10px] uppercase mb-6 font-medium">Initializing Protocol</div>
-                <div className="w-64 h-[2px] bg-white/5 overflow-hidden">
-                    <div className="h-full bg-white transition-all ease-out duration-300" style={{ width: `${loaded}%` }} />
+                <div className="relative mb-12">
+                    {/* Slowly spinning A-W Icons on X-axis (Theme swapped) */}
+                    <motion.img
+                        src="/icon-white.png"
+                        className="w-20 h-20 object-contain drop-shadow-xl hidden dark:block"
+                        alt="AWC Logo"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.img
+                        src="/icon-dark.png"
+                        className="w-20 h-20 object-contain drop-shadow-xl block dark:hidden"
+                        alt="AWC Logo"
+                        animate={{ rotateY: 360 }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    />
                 </div>
-                <div className="text-white/30 tracking-widest text-[9px] mt-4 font-mono">{loaded}% READY</div>
+
+                <div className="text-black/60 dark:text-white/60 tracking-[0.5em] text-[10px] uppercase mb-6 font-medium">Initializing Protocol</div>
+                <div className="w-64 h-[2px] bg-black/5 dark:bg-white/5 overflow-hidden">
+                    <div className="h-full bg-black dark:bg-white transition-all ease-out duration-300" style={{ width: `${loaded}%` }} />
+                </div>
+                <div className="text-black/30 dark:text-white/30 tracking-widest text-[9px] mt-4 font-mono">{loaded}% READY</div>
             </div>
 
             <canvas
@@ -118,8 +136,8 @@ export default function CanvasSequence({ onLoadComplete }: Props) {
                 className="block"
             />
 
-            {/* Heavy tint for supreme text contrast */}
-            <div className="absolute inset-0 bg-black/55 pointer-events-none" />
+            {/* Heavy frosted tint for Light mode, Dark contrast overlay for Dark mode */}
+            <div className="absolute inset-0 bg-white/70 dark:bg-black/55 pointer-events-none transition-colors duration-500" />
         </div>
     )
 }
