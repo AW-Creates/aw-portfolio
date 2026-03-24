@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'motion/react'
 import CanvasSequence from './CanvasSequence'
-import ThemeToggle from './ThemeToggle'
 
 export default function Hero() {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -33,7 +32,7 @@ export default function Hero() {
 
     return (
         <div ref={containerRef} className="h-[400vh] relative bg-white dark:bg-[#050505] selection:bg-black/20 dark:selection:bg-white/20 transition-colors duration-500">
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
 
             <div className="h-screen sticky top-0 overflow-hidden flex w-full">
 
