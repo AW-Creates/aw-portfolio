@@ -12,25 +12,34 @@ export default function Services() {
     // Butter-smooth physics for text tracking matching the Hero
     const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
 
-    // Stage 1: Intro Text fades in and up (Complete by 0.25, exit natively by 0.3)
-    const y1 = useTransform(smoothProgress, [0, 0.1, 0.25, 0.3], [150, 0, 0, -150])
-    const opacity1 = useTransform(smoothProgress, [0, 0.1, 0.25, 0.3], [0, 1, 1, 0])
+    // Stage 1: Intro Text (0 - 0.25)
+    const y1 = useTransform(smoothProgress, [0, 0.1, 0.2, 0.25], [150, 0, 0, -150])
+    const opacity1 = useTransform(smoothProgress, [0, 0.1, 0.2, 0.25], [0, 1, 1, 0])
 
-    // Stage 2: Staggered Glassmorphic Cards (Start natively at 0.32, exit strictly at 0.7)
-    const opacityCard1 = useTransform(smoothProgress, [0.32, 0.4, 0.65, 0.7], [0, 1, 1, 0])
-    const xCard1 = useTransform(smoothProgress, [0.32, 0.4, 0.65, 0.7], [-150, 0, 0, 0])
-    const yCard1 = useTransform(smoothProgress, [0.32, 0.4, 0.65, 0.7], [0, 0, 0, -150])
+    // Stage 2: Cards (0.28 - 0.6)
+    const opacityCard1 = useTransform(smoothProgress, [0.28, 0.35, 0.55, 0.6], [0, 1, 1, 0])
+    const xCard1 = useTransform(smoothProgress, [0.28, 0.35, 0.55, 0.6], [-150, 0, 0, 0])
+    const yCard1 = useTransform(smoothProgress, [0.28, 0.35, 0.55, 0.6], [0, 0, 0, -150])
 
-    const opacityCard2 = useTransform(smoothProgress, [0.38, 0.46, 0.65, 0.7], [0, 1, 1, 0])
-    const yCard2 = useTransform(smoothProgress, [0.38, 0.46, 0.65, 0.7], [150, 0, 0, -150])
+    const opacityCard2 = useTransform(smoothProgress, [0.33, 0.40, 0.55, 0.6], [0, 1, 1, 0])
+    const yCard2 = useTransform(smoothProgress, [0.33, 0.40, 0.55, 0.6], [150, 0, 0, -150])
 
-    const opacityCard3 = useTransform(smoothProgress, [0.44, 0.52, 0.65, 0.7], [0, 1, 1, 0])
-    const xCard3 = useTransform(smoothProgress, [0.44, 0.52, 0.65, 0.7], [150, 0, 0, 0])
-    const yCard3 = useTransform(smoothProgress, [0.44, 0.52, 0.65, 0.7], [0, 0, 0, -150])
+    const opacityCard3 = useTransform(smoothProgress, [0.38, 0.45, 0.55, 0.6], [0, 1, 1, 0])
+    const xCard3 = useTransform(smoothProgress, [0.38, 0.45, 0.55, 0.6], [150, 0, 0, 0])
+    const yCard3 = useTransform(smoothProgress, [0.38, 0.45, 0.55, 0.6], [0, 0, 0, -150])
 
-    // Stage 3: Closing Statement (Start 0.75 exclusively)
-    const y3 = useTransform(smoothProgress, [0.75, 0.85, 1], [150, 0, 0])
-    const opacity3 = useTransform(smoothProgress, [0.75, 0.85, 1], [0, 1, 1])
+
+    // Stage 3: Outro Sequence (Fades in completely staggered)
+
+    // "I Don't Follow" fades in at 0.65
+    const opacity3 = useTransform(smoothProgress, [0.65, 0.7, 1], [0, 1, 1])
+
+    // "Trends." drops explicitly later at 0.77
+    const opacityTrends = useTransform(smoothProgress, [0.77, 0.83, 1], [0, 1, 1])
+
+    // Paragraph Sweep drastically delayed to 0.88, locking at 0.94.
+    // This leaves 0.94 to 1.0 (6% of 500vh) as a pure scrolling "hold" loop for reading!
+    const paragraphReveal = useTransform(smoothProgress, [0.88, 0.94, 1], ["100%", "0%", "0%"])
 
     const services = [
         {
@@ -63,15 +72,15 @@ export default function Services() {
     ]
 
     return (
-        // Boosted slightly to 400vh to give the complex staggers enough tracking timeline padding
-        <section ref={containerRef} className="h-[400vh] relative bg-[#050505]" id="studio">
+        // Expanded array duration to 500vh to map massive deadzones around the final text resolution!
+        <section ref={containerRef} className="h-[500vh] relative bg-[#050505]" id="studio">
             <div className="h-screen sticky top-0 flex flex-col items-center justify-center px-6 md:px-12 w-full overflow-hidden">
 
                 {/* Stage 1 */}
                 <motion.div style={{ y: y1, opacity: opacity1 }} className="absolute text-center max-w-4xl mx-auto w-full px-4">
-                    <h2 className="font-signature text-6xl md:text-8xl lg:text-[8rem] text-white/90 mb-4 md:mb-6 drop-shadow-lg">Our Capabilities</h2>
+                    <h2 className="font-signature text-6xl md:text-8xl lg:text-[8rem] text-white/90 mb-4 md:mb-6 drop-shadow-lg">My Capabilities</h2>
                     <p className="text-lg md:text-3xl font-light tracking-wide text-white/60 leading-relaxed italic">
-                        "We lock in on raw automation and high-fidelity interfaces. Doing less, but doing it with absolute supremacy."
+                        "I lock in on raw automation and high-fidelity interfaces. Doing less, but doing it with absolute supremacy."
                     </p>
                 </motion.div>
 
@@ -97,12 +106,37 @@ export default function Services() {
                 </div>
 
                 {/* Stage 3 */}
-                <motion.div style={{ y: y3, opacity: opacity3 }} className="absolute text-center w-full px-4 pointer-events-none">
-                    {/* Mobile scaled typography, massive on desktop */}
-                    <h2 className="text-5xl md:text-8xl lg:text-[10rem] font-black tracking-tighter uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.6)] leading-[0.9]">
-                        We Don't Follow<br />
-                        <span className="text-white/90 [-webkit-text-stroke:0px] drop-shadow-2xl">Trends.</span>
+                <motion.div style={{ opacity: opacity3 }} className="absolute text-center w-full px-4 pointer-events-none flex flex-col items-center justify-center">
+
+                    <h2 className="text-center flex flex-col items-center justify-center -space-y-4 md:-space-y-12 w-full">
+                        <span className="text-2xl md:text-4xl lg:text-5xl font-light tracking-[0.4em] uppercase text-white/70 leading-relaxed block z-10 drop-shadow-md">
+                            I Don't Follow
+                        </span>
+                        {/* Delayed Entrance strictly at 0.77 */}
+                        <motion.span
+                            style={{ opacity: opacityTrends }}
+                            animate={{ scale: [1, 1.02, 1], filter: ['brightness(1)', 'brightness(1.3)', 'brightness(1)'] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            className="font-signature text-[6rem] md:text-[11rem] lg:text-[15rem] leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 drop-shadow-[0_0_25px_rgba(99,102,241,0.6)] tracking-normal block pt-2 pb-6 md:pb-12"
+                        >
+                            Trends.
+                        </motion.span>
                     </h2>
+
+                    <motion.p
+                        style={{
+                            opacity: opacityTrends,
+                            backgroundImage: "linear-gradient(90deg, rgba(255,255,255,1) 40%, rgba(255,255,255,0.05) 60%)",
+                            backgroundSize: "200% 100%",
+                            backgroundPositionX: paragraphReveal,
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent"
+                        }}
+                        className="text-base md:text-3xl font-light tracking-wide leading-relaxed italic -mt-6 md:-mt-10 max-w-4xl mx-auto drop-shadow-lg"
+                    >
+                        "I dictate the aesthetic baseline. Built to scale, engineered to convert, and entirely immune to visual decay."
+                    </motion.p>
+
                 </motion.div>
 
             </div>
