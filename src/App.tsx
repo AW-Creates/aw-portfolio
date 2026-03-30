@@ -2,6 +2,7 @@ import Hero from './components/Hero'
 import Navigation from './components/Navigation'
 import Services from './components/Services'
 import SelectedWork from './components/SelectedWork'
+import About from './components/About'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Hero />
       <Services />
       <SelectedWork />
+      <About />
     </main>
   )
 }
