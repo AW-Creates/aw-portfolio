@@ -3,6 +3,7 @@ import Navigation from './components/Navigation'
 import Services from './components/Services'
 import SelectedWork from './components/SelectedWork'
 import About from './components/About'
+import FooterOutro from './components/FooterOutro'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Services />
       <SelectedWork />
       <About />
+      <FooterOutro />
     </main>
   )
 }

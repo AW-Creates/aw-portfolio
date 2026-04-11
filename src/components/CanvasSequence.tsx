@@ -3,9 +3,10 @@ import { motion, useScroll, useSpring, useTransform } from 'motion/react'
 
 interface Props {
     onLoadComplete?: () => void;
+    isReverse?: boolean;
 }
 
-export default function CanvasSequence({ onLoadComplete }: Props) {
+export default function CanvasSequence({ onLoadComplete, isReverse = false }: Props) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [images, setImages] = useState<HTMLImageElement[]>([])
     const [loaded, setLoaded] = useState(0)
@@ -14,8 +15,12 @@ export default function CanvasSequence({ onLoadComplete }: Props) {
     const { scrollYProgress } = useScroll()
     const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
 
-    // Finish the sequence earlier (at 85% progress) so the last frame holds while scrolling out
-    const frameIndex = useTransform(smoothProgress, [0, 0.85], [0, frameCount - 1])
+    // If isReverse is active, wait until the final 15% of the overall global scroll, then physically rewind the cached memory array!
+    const frameIndex = useTransform(
+        smoothProgress,
+        isReverse ? [0.85, 1] : [0, 0.85],
+        isReverse ? [frameCount - 1, 0] : [0, frameCount - 1]
+    )
 
     useEffect(() => {
         const loadedImages: HTMLImageElement[] = []
