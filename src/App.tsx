@@ -1,19 +1,21 @@
-import Hero from './components/Hero'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'motion/react'
 import Navigation from './components/Navigation'
-import Services from './components/Services'
-import SelectedWork from './components/SelectedWork'
-import About from './components/About'
-import FooterOutro from './components/FooterOutro'
+import Home from './pages/Home'
+import CaseStudy from './pages/CaseStudy'
 
 function App() {
+  const location = useLocation()
+
   return (
-    <main className="bg-[#050505] transition-colors duration-500">
+    <main className="bg-[#050505] min-h-screen text-white/90 selection:bg-white/20 selection:text-white font-sans transition-colors duration-500">
       <Navigation />
-      <Hero />
-      <Services />
-      <SelectedWork />
-      <About />
-      <FooterOutro />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/work/:id" element={<CaseStudy />} />
+        </Routes>
+      </AnimatePresence>
     </main>
   )
 }

@@ -10,7 +10,10 @@ export default function CanvasSequence({ onLoadComplete, isReverse = false }: Pr
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [images, setImages] = useState<HTMLImageElement[]>([])
     const [loaded, setLoaded] = useState(0)
-    const frameCount = 232
+    
+    // Aggressive mobile optimization: Slash memory footprint by 50%
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+    const frameCount = isMobile ? 116 : 232;
 
     const { scrollYProgress } = useScroll()
     const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
@@ -29,7 +32,8 @@ export default function CanvasSequence({ onLoadComplete, isReverse = false }: Pr
         const loadSequence = async () => {
             for (let i = 1; i <= frameCount; i++) {
                 const img = new Image()
-                const paddedNum = i.toString().padStart(3, '0')
+                const actualFrameNum = isMobile ? (i * 2) - 1 : i;
+                const paddedNum = actualFrameNum.toString().padStart(3, '0')
                 img.src = `/sequence/ezgif-frame-${paddedNum}.jpg`
                 img.onload = () => {
                     loadedCount++
@@ -43,7 +47,7 @@ export default function CanvasSequence({ onLoadComplete, isReverse = false }: Pr
             }
         }
         loadSequence()
-    }, [])
+    }, [isMobile, frameCount])
 
     const drawImageCentered = (ctx: CanvasRenderingContext2D, logicalWidth: number, logicalHeight: number, img: HTMLImageElement) => {
         if (!img) return
@@ -72,7 +76,8 @@ export default function CanvasSequence({ onLoadComplete, isReverse = false }: Pr
 
         const handleResize = () => {
             if (canvasRef.current && window.innerWidth > 0) {
-                const dpr = window.devicePixelRatio || 1;
+                // Hard-cap the DPR to 1 on mobile to prevent iOS Safari from crashing due to GPU memory constraints
+                const dpr = isMobile ? 1 : (window.devicePixelRatio || 1);
                 const logicalWidth = window.innerWidth;
                 const logicalHeight = window.innerHeight;
 

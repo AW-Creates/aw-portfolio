@@ -1,38 +1,11 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
+import { Link } from 'react-router-dom'
 
-const projects = [
-    {
-        id: '01',
-        title: 'Aura Sync',
-        category: 'AI Automation / UI Design',
-        color: 'from-blue-500/10 to-indigo-500/10',
-        glow: 'bg-blue-500/30'
-    },
-    {
-        id: '02',
-        title: 'Nexus Architecture',
-        category: 'Web3 Platform',
-        color: 'from-emerald-500/10 to-teal-500/10',
-        glow: 'bg-emerald-500/30'
-    },
-    {
-        id: '03',
-        title: 'Quantum Dashboard',
-        category: 'Fintech Interface',
-        color: 'from-orange-500/10 to-red-500/10',
-        glow: 'bg-orange-500/30'
-    },
-    {
-        id: '04',
-        title: 'Echelon',
-        category: 'E-Commerce Scrollytelling',
-        color: 'from-pink-500/10 to-rose-500/10',
-        glow: 'bg-pink-500/30'
-    }
-]
+import { projectsData } from '../data/projects'
 
 export default function SelectedWork() {
+    const projects = Object.values(projectsData)
     const containerRef = useRef<HTMLDivElement>(null)
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -63,15 +36,15 @@ export default function SelectedWork() {
 
                 {/* Left Column (Evens) - Moves gently downwards */}
                 <motion.div style={{ y: yLeft }} className="flex flex-col gap-12 md:gap-32">
-                    {projects.filter((_, i) => i % 2 === 0).map((project) => (
-                        <ProjectCard key={project.id} {...project} />
+                    {projects.filter((_, i) => i % 2 === 0).map((project, i) => (
+                        <ProjectCard key={project.id} {...project} index={i * 2} />
                     ))}
                 </motion.div>
 
                 {/* Right Column (Odds) - Starts lower for masonry look, moves aggressively upwards */}
                 <motion.div style={{ y: yRight }} className="flex flex-col gap-12 md:gap-32 mt-0 md:mt-[200px]">
-                    {projects.filter((_, i) => i % 2 !== 0).map((project) => (
-                        <ProjectCard key={project.id} {...project} />
+                    {projects.filter((_, i) => i % 2 !== 0).map((project, i) => (
+                        <ProjectCard key={project.id} {...project} index={(i * 2) + 1} />
                     ))}
                 </motion.div>
 
@@ -80,33 +53,56 @@ export default function SelectedWork() {
     )
 }
 
-function ProjectCard({ id, title, category, color, glow }: { id: string, title: string, category: string, color: string, glow: string }) {
+function ProjectCard({ id, title, category, heroImage, index }: { id: string, title: string, category: string, heroImage: string, index: number }) {
+    // Map index to a specific glassmorphic color gradient
+    const gradients = [
+        { color: 'from-blue-500/10 to-indigo-500/10', glow: 'bg-blue-500/30' },
+        { color: 'from-emerald-500/10 to-teal-500/10', glow: 'bg-emerald-500/30' },
+        { color: 'from-orange-500/10 to-red-500/10', glow: 'bg-orange-500/30' },
+        { color: 'from-pink-500/10 to-rose-500/10', glow: 'bg-pink-500/30' }
+    ]
+    const style = gradients[index % gradients.length]
+    const { color, glow } = style
+
     return (
-        <div className="group cursor-pointer w-full">
-            {/* Aspect ratio container completely rewritten to Awwwards True-Glassmorphism rules */}
-            <div className={`w-full aspect-[4/5] bg-gradient-to-br ${color} mb-6 md:mb-8 overflow-hidden relative border-t border-l border-white/10 bg-white/[0.01] backdrop-blur-3xl group-hover:bg-white/[0.03] group-hover:border-white/20 transition-all duration-700 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.1)] rounded-[2rem]`}>
+        <Link to={`/work/${id}`} className="group cursor-pointer w-full block">
+            {/* Aspect ratio container completely rewritten to integrate the massive image natively */}
+            <div className={`w-full aspect-[4/5] bg-gradient-to-br ${color} overflow-hidden relative border-t border-l border-white/10 bg-white/[0.01] backdrop-blur-3xl group-hover:border-white/30 transition-all duration-700 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.1)] rounded-[2rem]`}>
+
+                {/* Massive Architectural Image Preview */}
+                <div className="absolute inset-0 z-0">
+                    <img 
+                        src={heroImage} 
+                        alt={title}
+                        className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.22,1,0.36,1] opacity-70 group-hover:opacity-100 mix-blend-luminosity group-hover:mix-blend-normal"
+                    />
+                    {/* Deep shadow gradient rising from bottom so text remains legible */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-700 z-10" />
+                </div>
 
                 {/* Ambient Glowing Light Orb (Simulates Massive Glass LED Refraction) */}
-                {/* It starts dim, but surges to massive brightness on hover, causing the glass filter to heavily interact */}
-                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] rounded-full ${glow} blur-[120px] opacity-10 group-hover:opacity-100 transition-opacity duration-[1.5s] ease-[0.22,1,0.36,1] pointer-events-none`} />
+                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] rounded-full ${glow} blur-[120px] opacity-10 group-hover:opacity-40 transition-opacity duration-[1.5s] ease-[0.22,1,0.36,1] pointer-events-none z-10`} />
 
-                {/* Placeholder for actual future case study imagery */}
-                <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.22,1,0.36,1]"></div>
+                {/* Number Watermark */}
+                <div className="absolute top-6 right-8 pointer-events-none z-20">
+                    <span className="font-signature text-white/30 group-hover:text-white/80 transition-colors duration-700 text-6xl drop-shadow-lg">{id}</span>
+                </div>
 
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 mix-blend-overlay">
-                    {/* Huge signature backdrop numbers. Mix-blend forces them to bleed directly into the sub-glass neon color! */}
-                    <span className="font-signature text-white/50 text-[15rem] md:text-[25rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-[1.3] transition-transform duration-[4s] ease-[0.22,1,0.36,1] drop-shadow-2xl">{id}</span>
+                {/* Details overlay snapping to bottom */}
+                <div className="absolute bottom-0 left-0 w-full p-8 z-30 translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1]">
+                    <div className="flex flex-col">
+                        <p className="text-[10px] md:text-xs tracking-[0.3em] font-light text-[#3b82f6] uppercase mb-2 drop-shadow-md">{category}</p>
+                        <h3 className="text-2xl md:text-4xl font-light tracking-wide text-white mb-6 drop-shadow-xl">{title}</h3>
+                        
+                        <div className="flex items-center gap-3 overflow-hidden">
+                            <span className="w-10 h-[1px] bg-white/40 group-hover:bg-white transition-colors duration-500" />
+                            <span className="text-xs uppercase tracking-[0.2em] font-medium text-white/60 group-hover:text-white transition-colors duration-500">
+                                View Case Study
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            {/* Meta data Block (Now reacts smoothly to parent glass interactions) */}
-            <div className="flex justify-between items-start border-t border-white/10 pt-6 px-1 md:px-2">
-                <div className="flex flex-col">
-                    <h3 className="text-xl md:text-3xl font-bold uppercase tracking-widest text-white/90 mb-1 group-hover:text-[#3b82f6] transition-colors duration-500">{title}</h3>
-                    <p className="text-[10px] md:text-xs tracking-[0.2em] font-light text-white/30 uppercase group-hover:text-white/60 transition-colors duration-500">{category}</p>
-                </div>
-                <span className="font-signature text-2xl md:text-3xl text-white/30 transition-all duration-500 group-hover:translate-x-3 group-hover:text-white/90">Details &rarr;</span>
-            </div>
-        </div>
+        </Link>
     )
 }

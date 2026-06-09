@@ -96,7 +96,7 @@ export default function Navigation() {
                                 <motion.div key={i} variants={itemVariants} className="overflow-visible p-2 flex items-baseline justify-center gap-6 md:gap-10 group cursor-pointer" onClick={() => setIsOpen(false)}>
                                     <span className="font-signature text-3xl md:text-5xl text-black/30 dark:text-white/30 group-hover:text-black/80 dark:group-hover:text-white/80 transition-colors duration-500 ease-out translate-y-1">{`0${i + 1}.`}</span>
                                     <a
-                                        href={`#${link.toLowerCase()}`}
+                                        href={`/#${link.toLowerCase()}`}
                                         className="block text-3xl md:text-5xl lg:text-6xl font-light tracking-[0.4em] uppercase text-black/80 dark:text-white/80 group-hover:text-black dark:group-hover:text-white group-hover:tracking-[0.6em] transition-all duration-700 ease-[0.22,1,0.36,1]"
                                     >
                                         {link}
