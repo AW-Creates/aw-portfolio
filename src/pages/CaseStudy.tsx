@@ -30,55 +30,56 @@ export default function CaseStudy() {
     const nextProject = projectsData[nextProjectId]
 
     return (
-        <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, filter: 'blur(10px)' }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="min-h-screen bg-[#050505] text-white flex flex-col relative overflow-x-hidden"
-            ref={containerRef}
-            key={id} // Force React to fully re-mount the component when ID changes so animations reset natively
-        >
-            {/* Return Navigation Anchor */}
-            <Link to="/" className="fixed top-8 md:top-12 left-6 md:left-12 z-50 text-white/50 hover:text-white uppercase tracking-[0.3em] text-[10px] md:text-xs font-light transition-all hover:-translate-x-2 block bg-[#050505]/50 px-4 py-2 rounded-full backdrop-blur-md border border-white/10">
-                &larr; Index
-            </Link>
+        <PageTransition>
+            <motion.section
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, filter: 'blur(10px)' }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                className="min-h-screen bg-[#050505] text-white flex flex-col relative overflow-x-hidden"
+                ref={containerRef}
+                key={id} // Force React to fully re-mount the component when ID changes so animations reset natively
+            >
+                {/* Return Navigation Anchor */}
+                <Link to="/" className="fixed top-8 md:top-12 left-6 md:left-12 z-50 text-white/50 hover:text-white uppercase tracking-[0.3em] text-[10px] md:text-xs font-light transition-all hover:-translate-x-2 block bg-[#050505]/50 px-4 py-2 rounded-full backdrop-blur-md border border-white/10">
+                    &larr; Index
+                </Link>
 
-            {/* Cinematic Header Block */}
-            <motion.div style={{ opacity: opacityText }} className="pt-32 md:pt-40 px-6 md:px-12 max-w-[100rem] mx-auto w-full z-20 flex flex-col items-start pb-12 md:pb-20">
-                <p className="text-[#3b82f6] tracking-[0.4em] text-[10px] md:text-sm uppercase mb-4 drop-shadow-md">{project.category} / {project.id}</p>
-                <h1 className="text-5xl md:text-[8rem] lg:text-[10rem] font-signature bg-clip-text text-transparent bg-gradient-to-br from-white to-white/40 drop-shadow-2xl leading-none">
-                    {project.title.split(' ')[0]} <br className="hidden md:block" /> {project.title.split(' ').slice(1).join(' ')}
-                </h1>
-                
-                {/* Metadata Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 mt-16 md:mt-24 border-t border-white/10 pt-8 w-full">
-                    <div>
-                        <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Role</p>
-                        <p className="text-sm md:text-base font-light text-white/80">{project.role}</p>
+                {/* Cinematic Header Block */}
+                <motion.div style={{ opacity: opacityText }} className="pt-32 md:pt-40 px-6 md:px-12 max-w-[100rem] mx-auto w-full z-20 flex flex-col items-start pb-12 md:pb-20">
+                    <p className="text-[#3b82f6] tracking-[0.4em] text-[10px] md:text-sm uppercase mb-4 drop-shadow-md">{project.category} / {project.id}</p>
+                    <h1 className="text-5xl md:text-[8rem] lg:text-[10rem] font-signature bg-clip-text text-transparent bg-gradient-to-br from-white to-white/40 drop-shadow-2xl leading-none">
+                        {project.title.split(' ')[0]} <br className="hidden md:block" /> {project.title.split(' ').slice(1).join(' ')}
+                    </h1>
+                    
+                    {/* Metadata Grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 mt-16 md:mt-24 border-t border-white/10 pt-8 w-full">
+                        <div>
+                            <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Role</p>
+                            <p className="text-sm md:text-base font-light text-white/80">{project.role}</p>
+                        </div>
+                        <div>
+                            <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Timeline</p>
+                            <p className="text-sm md:text-base font-light text-white/80">{project.timeline}</p>
+                        </div>
+                        <div>
+                            <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Tech Stack</p>
+                            <p className="text-sm md:text-base font-light text-white/80">{project.techStack.join(', ')}</p>
+                        </div>
+                        <div>
+                            <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Live Demo</p>
+                            <a href={project.liveUrl} target="_blank" rel="noreferrer" className="text-sm md:text-base font-light text-[#3b82f6] hover:text-white transition-colors underline underline-offset-4 decoration-white/20">View Project &nearr;</a>
+                        </div>
                     </div>
-                    <div>
-                        <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Timeline</p>
-                        <p className="text-sm md:text-base font-light text-white/80">{project.timeline}</p>
-                    </div>
-                    <div>
-                        <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Tech Stack</p>
-                        <p className="text-sm md:text-base font-light text-white/80">{project.techStack.join(', ')}</p>
-                    </div>
-                    <div>
-                        <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Live Demo</p>
-                        <a href={project.liveUrl} target="_blank" rel="noreferrer" className="text-sm md:text-base font-light text-[#3b82f6] hover:text-white transition-colors underline underline-offset-4 decoration-white/20">View Project &nearr;</a>
-                    </div>
-                </div>
-            </motion.div>
-
-            {/* Massive Parallax Hero Image */}
-            <div className="relative w-full h-[50vh] md:h-[90vh] overflow-hidden">
-                <motion.div style={{ y: yImage }} className="absolute inset-0 -top-[20%] w-full h-[140%] bg-[#050505]">
-                    <img src={project.heroImage} alt={project.title} className="w-full h-full object-cover opacity-80 mix-blend-luminosity" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/50" />
                 </motion.div>
-            </div>
+
+                {/* Massive Parallax Hero Image */}
+                <div className="relative w-full h-[50vh] md:h-[90vh] overflow-hidden">
+                    <motion.div style={{ y: yImage }} className="absolute inset-0 -top-[20%] w-full h-[140%] bg-[#050505]">
+                        <img src={project.heroImage} alt={project.title} className="w-full h-full object-cover opacity-80 mix-blend-luminosity" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/50" />
+                    </motion.div>
+                </div>
 
             {/* Primary Context Container */}
             <div className="max-w-4xl mx-auto px-6 py-20 md:py-32 z-20 relative bg-[#050505] w-full text-white/70 font-light text-lg md:text-2xl leading-loose">
@@ -114,5 +115,6 @@ export default function CaseStudy() {
             </Link>
 
         </motion.section>
+        </PageTransition>
     )
 }

@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { Link } from 'react-router-dom'
+import SplitTextReveal from './SplitTextReveal'
 
 import { projectsData } from '../data/projects'
 
@@ -26,9 +27,10 @@ export default function SelectedWork() {
                     <span className="text-2xl md:text-4xl lg:text-5xl font-light tracking-[0.4em] uppercase text-white/70 leading-relaxed block z-10 drop-shadow-md">
                         Selected
                     </span>
-                    <span className="font-signature text-[6rem] md:text-[11rem] lg:text-[15rem] leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 drop-shadow-[0_0_25px_rgba(99,102,241,0.6)] tracking-normal block pt-2 pb-6 md:pb-12">
-                        Work.
-                    </span>
+                    <SplitTextReveal 
+                        text="Work." 
+                        className="font-signature text-[6rem] md:text-[11rem] lg:text-[15rem] leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 drop-shadow-[0_0_25px_rgba(99,102,241,0.6)] tracking-normal block pt-2 pb-6 md:pb-12" 
+                    />
                 </h2>
             </div>
 

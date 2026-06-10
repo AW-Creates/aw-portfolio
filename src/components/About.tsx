@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
+import SplitTextReveal from './SplitTextReveal'
 
 export default function About() {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -36,9 +37,10 @@ export default function About() {
                         <span className="text-xl md:text-3xl font-light tracking-[0.5em] uppercase text-white/70 block drop-shadow-md pb-4 pt-12 md:pt-0">
                             The Architect
                         </span>
-                        <span className="font-signature text-[6rem] md:text-[8rem] lg:text-[11rem] leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 drop-shadow-[0_0_25px_rgba(99,102,241,0.6)] capitalize tracking-normal block pb-4">
-                            Aaron.
-                        </span>
+                        <SplitTextReveal
+                            text="Aaron."
+                            className="font-signature text-[6rem] md:text-[8rem] lg:text-[11rem] leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 drop-shadow-[0_0_25px_rgba(99,102,241,0.6)] capitalize tracking-normal block pb-4"
+                        />
                         <p className="text-xs md:text-sm font-light tracking-[0.2em] text-white/40 uppercase mt-4 max-w-sm leading-[2.5]">
                             Deploying autonomous intelligence and hyper-responsive architecture from the shadows.
                         </p>
